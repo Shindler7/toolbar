@@ -10,7 +10,7 @@ def load_requirements(file_name) -> List[str]:
 
 setup(
     name='toolbar',
-    version='1.0',
+    version='1.1',
     packages=find_packages(),
     install_requires=load_requirements('requirements.txt'),
     author='Schindler7',
