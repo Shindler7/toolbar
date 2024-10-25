@@ -4,8 +4,6 @@
 import datetime as dt
 from typing import Union, Tuple
 
-from toolbar.except_handlers.interfaces import raise_type
-
 
 def validate_any_datetime(date_time: Union[dt.datetime, dt.date, dt.time]
                           ) -> None:
@@ -18,9 +16,8 @@ def validate_any_datetime(date_time: Union[dt.datetime, dt.date, dt.time]
     """
 
     if not isinstance(date_time, (dt.datetime, dt.date, dt.time)):
-        raise_type(TypeError,
-                   msg='Объект должен быть datetime, date или time, '
-                       f'получено: {type(date_time)}')
+        raise TypeError(f'объект должен быть datetime, date или time, '
+                        f'получено: {type(date_time)}')
 
 
 def validate_is_datetime(date: Union[dt.datetime, dt.date],
@@ -42,8 +39,7 @@ def validate_is_datetime(date: Union[dt.datetime, dt.date],
     )
 
     if not isinstance(date, check_types):
-        raise_type(TypeError,
-                   msg=f'Ожидается {msg_type}, получено: {type(date)}')
+        raise TypeError(f'ожидается {msg_type}, получено: {type(date)}')
 
 
 def validate_is_date(date: dt.date) -> None:
@@ -54,8 +50,7 @@ def validate_is_date(date: dt.date) -> None:
     """
 
     if not isinstance(date, dt.date):
-        raise_type(TypeError,
-                   msg=f'Ожидается datetime.date, получено: {type(date)}')
+        raise TypeError(f'ожидается datetime.date, получено: {type(date)}')
 
 
 def validate_is_time(time: dt.time) -> None:
@@ -67,5 +62,4 @@ def validate_is_time(time: dt.time) -> None:
     """
 
     if not isinstance(time, dt.date):
-        raise_type(TypeError,
-                   msg=f'Ожидается datetime.time, получено: {type(time)}')
+        raise TypeError(f'Ожидается datetime.time, получено: {type(time)}')

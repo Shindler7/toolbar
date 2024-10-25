@@ -7,8 +7,7 @@ from typing import Union
 import pytz
 from pytz.tzinfo import BaseTzInfo
 
-from toolbar.except_handlers.interfaces import raise_type
-from .validators import validate_is_datetime
+from toolbar.datime.validators import validate_is_datetime
 
 
 def add_timezone(date: dt.datetime,
@@ -45,7 +44,7 @@ def get_timezone(date: dt.datetime) -> Union[str, dt.timezone, None]:
     """
 
     if not isinstance(date, dt.datetime):
-        raise_type(TypeError, msg='Атрибут date должен быть datetime')
+        raise TypeError('атрибут date должен быть datetime')
 
     if is_naive(date):
         return None
@@ -58,7 +57,7 @@ def get_timezone(date: dt.datetime) -> Union[str, dt.timezone, None]:
     if hasattr(tz_info, 'zone'):
         return tz_info.zone
 
-    raise_type(ValueError, msg='Неизвестный тип временной зоны')
+    raise ValueError('неизвестный тип временной зоны')
 
 
 def are_eq_tz(*date: dt.datetime) -> bool:
@@ -72,10 +71,10 @@ def are_eq_tz(*date: dt.datetime) -> bool:
     """
 
     if len(date) < 2:
-        raise_type(ValueError, msg='Атрибутов date должно быть 2 и более')
+        raise ValueError('атрибутов date должно быть 2 и более')
 
     if not all(isinstance(d, dt.datetime) for d in date):
-        raise_type(TypeError, msg='Объекты date должны быть datetime')
+        raise TypeError('объекты date должны быть datetime')
 
     return all(date[0].utcoffset() == d.utcoffset() for d in date)
 

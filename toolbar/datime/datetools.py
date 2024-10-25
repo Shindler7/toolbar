@@ -6,10 +6,10 @@ import os
 from datetime import timedelta
 from typing import Union, Literal
 
-from toolbar.except_handlers.interfaces import raise_type
-from .timezones import (add_timezone, is_naive, get_utc_tz, get_timezone,
-                        are_eq_tz, local_now, since_time)
-from .validators import validate_is_datetime
+from toolbar.datime.timezones import (add_timezone, is_naive, get_utc_tz,
+                                      get_timezone,
+                                      are_eq_tz, local_now, since_time)
+from toolbar.datime.validators import validate_is_datetime
 
 
 def dt_or_str(date: Union[dt.datetime, dt.date, str],
@@ -35,7 +35,7 @@ def dt_or_str(date: Union[dt.datetime, dt.date, str],
     if isinstance(date, (dt.datetime, dt.date)):
         return date.strftime(fmt)
 
-    raise_type(TypeError, msg=f'{date} должно быть строкой, date или datetime')
+    raise TypeError(f'{date} должно быть строкой, date или datetime')
 
 
 def convert_datetime_fmt(date: str,
@@ -55,7 +55,7 @@ def convert_datetime_fmt(date: str,
     """
 
     if not isinstance(date, str):
-        raise_type(TypeError, msg=f'{date} должно быть строкой')
+        raise TypeError('{date} должно быть строкой')
 
     intermediate_convert: dt.datetime = dt_or_str(date, original_fmt)
 
@@ -100,7 +100,7 @@ def convert_iso_date(date: Union[dt.datetime, str],
     if isinstance(date, dt.datetime):
         return set_tz(date).isoformat(sep_time, timespec)
 
-    raise_type(TypeError, msg=f'{date} должно быть строкой или datetime')
+    raise TypeError(f'{date} должно быть строкой или datetime')
 
 
 def calc_date(date: Union[dt.datetime, dt.date],
@@ -123,9 +123,9 @@ def calc_date(date: Union[dt.datetime, dt.date],
     validate_is_datetime(date, allow_date=True)
 
     if d not in ('+', '-'):
-        raise_type(ValueError, msg=f'Направление {d} может быть + или -')
+        raise ValueError(f'Направление {d} может быть + или -')
     if not period:
-        raise_type(AttributeError, msg='Отсутствуют аттрибуты period')
+        raise AttributeError('Отсутствуют аттрибуты period')
 
     time_delta: dt.timedelta = timedelta(**period)
     result: dt.datetime = date + time_delta if d == '+' else date - time_delta
@@ -199,7 +199,7 @@ def seconds_since_datetime(*,
         validate_is_datetime(since)
 
     if not are_eq_tz(since, end):
-        raise_type(ValueError, msg='Временные зоны since и end разные')
+        raise ValueError('Временные зоны since и end разные')
 
     diff = end - since
     return int(diff.total_seconds())
